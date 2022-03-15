@@ -34,4 +34,5 @@ jobs:
         run: |
           chmod +x gradlew
           ./gradlew build
-          ls build
+          gradle
+          #ls build
