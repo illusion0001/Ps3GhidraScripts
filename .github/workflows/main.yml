@@ -27,7 +27,7 @@ jobs:
         with:
           version: ${{ matrix.ghidra }}
 
-      - name: Execute Gradle build
+      - name: Build Extension
         run: |
           gradle
-          ls
+          ls dist
