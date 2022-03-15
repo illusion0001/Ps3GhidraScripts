@@ -37,14 +37,15 @@ jobs:
           retention-days: 7
 
   push_release:
-    if: |
-      github.event_name == 'push' &&
-      github.repository == 'clienthax/Ps3GhidraScripts'
+    #if: |
+      #github.event_name == 'push' &&
+      #github.repository == 'clienthax/Ps3GhidraScripts'
     needs: build_extension
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
 
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
