@@ -27,12 +27,7 @@ jobs:
         with:
           version: ${{ matrix.ghidra }}
 
-      - name: Setup Gradle
-        uses: gradle/gradle-build-action@v2
-      
       - name: Execute Gradle build
         run: |
-          chmod +x gradlew
-          ./gradlew build
           gradle
-          #ls build
+          ls
