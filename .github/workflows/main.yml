@@ -27,7 +27,8 @@ jobs:
         with:
           version: ${{ matrix.ghidra }}
 
-      - name: Build
-        uses: eskatos/gradle-command-action@v2
-        with:
-          arguments: buildExtension -PGHIDRA_INSTALL_DIR=${{ env.GHIDRA_INSTALL_DIR }}
+      - name: Setup Gradle
+        uses: gradle/gradle-build-action@v2
+      
+      - name: Execute Gradle build
+        run: ./gradlew build
