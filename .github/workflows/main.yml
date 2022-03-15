@@ -3,7 +3,7 @@ name: Build and publish
 on: [push, pull_request]
 
 jobs:
-  build:
+  build_extension:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -13,14 +13,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Get short SHA
+        run: echo "SHORT_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
+
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
           java-version: 11
           distribution: temurin
-
-      - name: Get short SHA
-        run: echo "SHORT_SHA=${GITHUB_SHA:0:7}" >> $GITHUB_ENV
 
       - name: Setup Ghidra
         uses: er28-0652/setup-ghidra@master
@@ -35,3 +35,21 @@ jobs:
         with:
           path: dist/
           retention-days: 7
+
+  push_release:
+    if: |
+      github.event_name == 'push' &&
+      github.repository == 'clienthax/Ps3GhidraScripts'
+    needs: build_extension
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          path: artifacts
+      - name: Create Release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create 1.0${{ GITHUB.RUN_NUMBER }} artifacts/*.zip --target ${{ GITHUB.SHA }} -t 1.0${{ GITHUB.RUN_NUMBER }}
