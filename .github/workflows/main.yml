@@ -28,6 +28,10 @@ jobs:
           version: ${{ matrix.ghidra }}
 
       - name: Build Extension
-        run: |
-          gradle
-          ls dist
+        run: gradle
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          path: dist/
+          retention-days: 7
