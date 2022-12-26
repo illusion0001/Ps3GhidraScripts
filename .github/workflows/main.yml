@@ -44,9 +44,6 @@ jobs:
           retention-days: 7
 
   push_release:
-    if: |
-      github.event_name == 'push' &&
-      github.repository == 'clienthax/Ps3GhidraScripts'
     needs: build_extension
     runs-on: ubuntu-latest
     steps:
